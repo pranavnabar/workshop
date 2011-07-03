@@ -84,6 +84,7 @@ public class CustomerTest extends TestCase {
 							"Amount owed is 23.0\n" +
 							"You earned 4 frequent renter points";
 		String statement = customer1.statement();
+        System.out.println(statement);
 		assertEquals(expected, statement);
 	}
 	
