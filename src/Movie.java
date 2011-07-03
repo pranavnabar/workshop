@@ -8,43 +8,38 @@ public class Movie {
 	public static final int REGULAR = 0;
 	
 	private String _title;
-	private int _priceCode;
-	
-	public Movie(String title, int priceCode) {
+    private Price _price;
+
+    public Movie(String title, int priceCode) {
 		_title = title;
-		_priceCode = priceCode;
+		setPriceCode(priceCode);
 	}
 	
 	public int getPriceCode() {
-		return _priceCode;
+		return _price.getPriceCode();
 	}
 
 	public void setPriceCode(int arg) {
-		_priceCode = arg;
+        switch(arg) {
+            case REGULAR:
+                _price = new RegularPrice();
+                break;
+            case CHILDRENS:
+                _price = new ChildrensPrice();
+                break;
+            case NEW_RELEASE:
+                _price = new NewReleasePrice();
+                break;
+            default:
+                throw new IllegalArgumentException("Incorrect Price Code");
+        }
 	}
 	public String getTitle() {
 		return _title;
 	}
 
-
-    double getCharge(int daysRented) {
-        double rentalAmount = 0;
-        switch (getPriceCode()) {
-        case REGULAR:
-            rentalAmount += 2;
-            if (daysRented > 2)
-                rentalAmount += (daysRented - 2) * 1.5;
-            break;
-        case NEW_RELEASE:
-            rentalAmount += daysRented * 3;
-            break;
-        case CHILDRENS:
-            rentalAmount += 1.5;
-            if (daysRented > 3)
-                rentalAmount += (daysRented - 3) * 1.5;
-            break;
-        }
-        return rentalAmount;
+    public double getCharge(int daysRented) {
+        return _price.getCharge(daysRented);
     }
 
     int getFrequentRenterPoints(int daysRented) {
